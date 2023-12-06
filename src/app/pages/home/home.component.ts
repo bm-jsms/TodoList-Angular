@@ -22,7 +22,6 @@ import { Task } from '../../models/task.model';
 })
 export class HomeComponent {
   tasks = signal<Task[]>([]);
-  // optional
   filter = signal<'all' | 'pending' | 'completed'>('all');
 
   changeFilter(filter: 'all' | 'pending' | 'completed') {
@@ -40,8 +39,6 @@ export class HomeComponent {
     return tasks;
   });
 
-  //optional
-
   newTaskCtrl = new FormControl('', {
     nonNullable: true,
     validators: [Validators.required, Validators.minLength(4)],
@@ -57,6 +54,7 @@ export class HomeComponent {
       }
     }
   }
+
   addTask(title: string) {
     const newTask: Task = {
       id: Date.now(),
@@ -90,7 +88,6 @@ export class HomeComponent {
         if (i === index) {
           return {
             ...t,
-            // editing: !t.editing,
             editing: true,
           };
         }
@@ -101,6 +98,7 @@ export class HomeComponent {
       });
     });
   }
+
   updateText(index: number, event: Event) {
     const input = event.target as HTMLInputElement;
     this.tasks.update((tasks) => {
@@ -108,7 +106,6 @@ export class HomeComponent {
         if (i === index) {
           return {
             ...t,
-            // editing: !t.editing,
             title: input.value,
             editing: false,
           };
@@ -117,6 +114,7 @@ export class HomeComponent {
       });
     });
   }
+
   injector = inject(Injector);
 
   ngOnInit() {
