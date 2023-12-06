@@ -1,0 +1,80 @@
+<section class="todoapp">
+  <header class="header">
+    <div class="container">
+      <h1>TODO List with Angular</h1>
+      <p>Write your list of activities, without losing data</p>
+      <input
+        class="new-todo"
+        placeholder="Type new todo"
+        autofocus
+        type="text"
+        [formControl]="newTaskCtrl"
+        (keydown.enter)="changeHandler()"
+      />
+    </div>
+  </header>
+  <div class="container todoapp-wrapper">
+    <section class="main">
+      <ul class="todo-list">
+        <li
+          (dblclick)="updateTaskEditingMode(i)"
+          *ngFor="let task of taskByFilter(); index as i"
+          [class.editing]="task.editing"
+          [class.completed]="task.completed"
+        >
+          <div class="view">
+            <input
+              class="toggle"
+              type="checkbox"
+              [checked]="task.completed"
+              (change)="updateTask(i)"
+            />
+            <label>{{ task.title }}</label>
+            <button class="destroy" (click)="deleteTask(i)"></button>
+          </div>
+          <input
+            class="edit"
+            [value]="task.title"
+            (keydown.enter)="updateText(i, $event)"
+          />
+        </li>
+      </ul>
+    </section>
+
+    <footer class="footer">
+      <span class="todo-count">
+        <strong>{{ taskByFilter().length }} </strong>
+        <span class="counter" *ngIf="taskByFilter().length === 1; else otherV"
+          >task</span
+        >
+        <ng-template class="counter" #otherV>tasks</ng-template>
+      </span>
+
+      <ul class="filters">
+        <li>
+          <a
+            (click)="changeFilter('all')"
+            [class.selected]="filter() === 'all'"
+          >
+            All</a
+          >
+        </li>
+        <li>
+          <a
+            (click)="changeFilter('pending')"
+            [class.selected]="filter() === 'pending'"
+          >
+            Pending
+          </a>
+        </li>
+        <li>
+          <a
+            (click)="changeFilter('completed')"
+            [class.selected]="filter() === 'completed'"
+            >Completed</a
+          >
+        </li>
+      </ul>
+    </footer>
+  </div>
+</section>
