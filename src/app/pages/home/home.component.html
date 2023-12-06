@@ -16,9 +16,9 @@
   <div class="container todoapp-wrapper">
     <section class="main">
       <ul class="todo-list">
+        @for (task of taskByFilter(); track task; let i = $index) {
         <li
           (dblclick)="updateTaskEditingMode(i)"
-          *ngFor="let task of taskByFilter(); index as i"
           [class.editing]="task.editing"
           [class.completed]="task.completed"
         >
@@ -38,16 +38,16 @@
             (keydown.enter)="updateText(i, $event)"
           />
         </li>
+        }
       </ul>
     </section>
 
     <footer class="footer">
       <span class="todo-count">
         <strong>{{ taskByFilter().length }} </strong>
-        <span class="counter" *ngIf="taskByFilter().length === 1; else otherV"
-          >task</span
-        >
-        <ng-template class="counter" #otherV>tasks</ng-template>
+        @if (taskByFilter().length === 1) {
+        <span class="counter">task</span>
+        } @else { tasks }
       </span>
 
       <ul class="filters">
